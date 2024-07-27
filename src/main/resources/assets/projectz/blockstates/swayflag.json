@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/swayflag" },
+    "facing=east": { "model": "projectz:block/swayflag", "y": 90 },
+    "facing=south": { "model": "projectz:block/swayflag", "y": 180 },
+    "facing=west": { "model": "projectz:block/swayflag", "y": 270 }
+  }
+}

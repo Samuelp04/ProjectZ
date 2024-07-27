@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/dangersign" },
+    "facing=east": { "model": "projectz:block/dangersign", "y": 90 },
+    "facing=south": { "model": "projectz:block/dangersign", "y": 180 },
+    "facing=west": { "model": "projectz:block/dangersign", "y": 270 }
+  }
+}

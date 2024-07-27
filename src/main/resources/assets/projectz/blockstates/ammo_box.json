@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/ammo_box" },
+    "facing=east": { "model": "projectz:block/ammo_box", "y": 90 },
+    "facing=south": { "model": "projectz:block/ammo_box", "y": 180 },
+    "facing=west": { "model": "projectz:block/ammo_box", "y": 270 }
+  }
+}

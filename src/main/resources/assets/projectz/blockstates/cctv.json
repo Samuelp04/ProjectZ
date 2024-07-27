@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/cctv" },
+    "facing=east": { "model": "projectz:block/cctv", "y": 90 },
+    "facing=south": { "model": "projectz:block/cctv", "y": 180 },
+    "facing=west": { "model": "projectz:block/cctv", "y": 270 }
+  }
+}

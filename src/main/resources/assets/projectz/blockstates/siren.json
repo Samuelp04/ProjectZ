@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/siren" },
+    "facing=east": { "model": "projectz:block/siren", "y": 90 },
+    "facing=south": { "model": "projectz:block/siren", "y": 180 },
+    "facing=west": { "model": "projectz:block/siren", "y": 270 }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/newspapers" },
+    "facing=east": { "model": "projectz:block/newspapers", "y": 90 },
+    "facing=south": { "model": "projectz:block/newspapers", "y": 180 },
+    "facing=west": { "model": "projectz:block/newspapers", "y": 270 }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/tornflag" },
+    "facing=east": { "model": "projectz:block/tornflag", "y": 90 },
+    "facing=south": { "model": "projectz:block/tornflag", "y": 180 },
+    "facing=west": { "model": "projectz:block/tornflag", "y": 270 }
+  }
+}

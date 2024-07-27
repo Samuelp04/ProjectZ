@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/campingstool" },
+    "facing=east": { "model": "projectz:block/campingstool", "y": 90 },
+    "facing=south": { "model": "projectz:block/campingstool", "y": 180 },
+    "facing=west": { "model": "projectz:block/campingstool", "y": 270 }
+  }
+}

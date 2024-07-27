@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/hazzardbarrier" },
+    "facing=east": { "model": "projectz:block/hazzardbarrier", "y": 90 },
+    "facing=south": { "model": "projectz:block/hazzardbarrier", "y": 180 },
+    "facing=west": { "model": "projectz:block/hazzardbarrier", "y": 270 }
+  }
+}

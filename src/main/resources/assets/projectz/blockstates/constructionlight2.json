@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/constructionlight2" },
+    "facing=east": { "model": "projectz:block/constructionlight2", "y": 90 },
+    "facing=south": { "model": "projectz:block/constructionlight2", "y": 180 },
+    "facing=west": { "model": "projectz:block/constructionlight2", "y": 270 }
+  }
+}

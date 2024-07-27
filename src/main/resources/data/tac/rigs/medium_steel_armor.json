@@ -1,0 +1,24 @@
+{
+  "general": {
+    "armorClass": 3,
+    "ergonomics": 2,
+    "speedReduction": 0.09,
+    "movementInaccuracy": 1.15,
+    "inventoryRows": 2
+  },
+  "repair": {
+    "ticksToRepair": 45,
+    "durability": 110.0,
+    "quickRepairability": 0.25,
+    "quickRepairable": true,
+    "repairItem": "tac:light_armor_plate"
+  },
+  "sounds": {
+    "step": "minecraft:item.armor.equip_diamond",
+    "on":"minecraft:item.armor.equip_diamond",
+    "off":"minecraft:item.armor.equip_diamond",
+    "hit":"minecraft:item.armor.equip_diamond",
+    "broken":"minecraft:item.armor.equip_diamond",
+    "repair":"minecraft:item.armor.equip_diamond"
+  }
+}

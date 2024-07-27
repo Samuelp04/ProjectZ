@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "projectz:block/air_drop" },
+    "facing=east": { "model": "projectz:block/air_drop", "y": 90 },
+    "facing=south": { "model": "projectz:block/air_drop", "y": 180 },
+    "facing=west": { "model": "projectz:block/air_drop", "y": 270 }
+  }
+}
