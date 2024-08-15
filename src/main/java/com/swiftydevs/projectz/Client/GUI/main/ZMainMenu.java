@@ -21,7 +21,7 @@ public class ZMainMenu extends Screen {
     private static final int BUTTON_WIDTH = 100;
     private static final int BUTTON_HEIGHT = 20;
 
-    private static final Component MOD_NAME = new TextComponent("Project Z Mod - 0.0.1");
+    private static final Component MOD_NAME = new TextComponent("Project Z Mod - 0.0.4a");
     private static final Component DEVELOPMENT_DISCLAIMER = new TextComponent("DISCLAIMER: This mod is still in development");
     private ScrollableNewsWidget newsWidget;
     private NewsContainer newsContainer;

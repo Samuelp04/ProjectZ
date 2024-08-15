@@ -3,12 +3,13 @@ package com.swiftydevs.projectz;
 import com.mojang.logging.LogUtils;
 import com.swiftydevs.projectz.Client.ClientEventHandler;
 import com.swiftydevs.projectz.Client.GUI.main.ZMainMenu;
+import com.swiftydevs.projectz.Client.commands.AddMoneyCommand;
+import com.swiftydevs.projectz.Client.commands.SpawnNpcCommand;
 import com.swiftydevs.projectz.Common.entity.InfectedZombie;
+import com.swiftydevs.projectz.Common.entity.NpcEntity;
 import com.swiftydevs.projectz.Common.entity.renderer.InfectedZombieRenderer;
-import com.swiftydevs.projectz.Common.init.ModBlockEntities;
-import com.swiftydevs.projectz.Common.init.ModBlocks;
-import com.swiftydevs.projectz.Common.init.ModEntityTypes;
-import com.swiftydevs.projectz.Common.init.ModItems;
+import com.swiftydevs.projectz.Common.entity.renderer.NpcEntityRenderer;
+import com.swiftydevs.projectz.Common.init.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -22,6 +23,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,9 +52,13 @@ public class ProjectZ {
         // Register other event handlers
         MinecraftForge.EVENT_BUS.register(ClientEventHandler.class);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onRegisterCommands);
 
         ModBlockEntities.register(modEventBus);
+
     }
+
+
 
     private void setup(FMLClientSetupEvent event) {
         // Set rendering layers for blocks
@@ -93,8 +99,12 @@ public class ProjectZ {
         setRenderLayer(ModBlocks.HAZARDPOLE.get());
         setRenderLayer(ModBlocks.AMMO_BOX.get());
 
+
         // Register entity renderer
         EntityRenderers.register(ModEntityTypes.INFECTED_ZOMBIE.get(), InfectedZombieRenderer::new);
+        EntityRenderers.register(ModEntityTypes.MEDICAL_TRADER.get(), NpcEntityRenderer::new);
+
+        ModNetworking.register();
 
         // Set spawn placements
         event.enqueueWork(() -> SpawnPlacements.register(
@@ -106,12 +116,15 @@ public class ProjectZ {
     }
 
     private static void setRenderLayer(Block block) {
-        ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(block, RenderType.translucent());
     }
 
     private void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntityTypes.INFECTED_ZOMBIE.get(), InfectedZombie.createAttributes().build());
+        event.put(ModEntityTypes.MEDICAL_TRADER.get(), NpcEntity.createAttributes().build());
     }
+
+
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
@@ -120,5 +133,11 @@ public class ProjectZ {
             Minecraft minecraft = Minecraft.getInstance();
             minecraft.setScreen(new ZMainMenu());
         }
+    }
+
+    private void onRegisterCommands(RegisterCommandsEvent event) {
+        // Register commands
+        AddMoneyCommand.register(event.getDispatcher());
+        SpawnNpcCommand.register(event.getDispatcher());
     }
 }

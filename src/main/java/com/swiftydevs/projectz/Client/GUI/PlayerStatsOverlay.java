@@ -3,20 +3,21 @@ package com.swiftydevs.projectz.Client.GUI;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.swiftydevs.projectz.Client.ClientEventHandler;
+import com.swiftydevs.projectz.ProjectZ;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
 import java.util.UUID;
 
-@EventBusSubscriber(value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = ProjectZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class PlayerStatsOverlay {
 
     private static final ResourceLocation STATS_BACKGROUND = new ResourceLocation("projectz", "textures/gui/stats_background.png");
@@ -62,7 +63,7 @@ public class PlayerStatsOverlay {
     }
 
     private static void blit(PoseStack poseStack, int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight) {
-        // Method for drawing the texture, replace with your actual implementation
         Minecraft.getInstance().gui.blit(poseStack, x, y, u, v, width, height, textureWidth, textureHeight);
     }
 }
+

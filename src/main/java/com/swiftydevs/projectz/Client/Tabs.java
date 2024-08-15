@@ -33,7 +33,7 @@ public class Tabs {
 
     public static final CreativeModeTab MELEE_TAB = new CreativeModeTab("melee_tab") {
         public ItemStack makeIcon() {
-            return new ItemStack((ItemLike)ModItems.HATCHET.get());
+            return new ItemStack((ItemLike)ModItems.MACHETE.get());
         }
     };
 }

@@ -4,10 +4,8 @@ import com.swiftydevs.projectz.Client.Tabs;
 import com.swiftydevs.projectz.Common.Items.BaseItem;
 import com.swiftydevs.projectz.Common.Items.FoodBase;
 import com.swiftydevs.projectz.Common.Items.MedKit;
-import com.swiftydevs.projectz.Common.Items.RotateToolItem;
 import com.swiftydevs.projectz.Common.Items.itemMelee;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -24,10 +22,10 @@ public class ModItems {
     public static final RegistryObject<Item> RAG = ITEMS.register("rag", MedKit::new);
     public static final RegistryObject<Item> DRESSING_PACKAGE = ITEMS.register("dress_package", MedKit::new);
 
-    public static final RegistryObject<Item> HATCHET = ITEMS.register("hatchet", () -> new itemMelee(Tiers.IRON, 4, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
-    public static final RegistryObject<Item> BATON = ITEMS.register("baton", () -> new itemMelee(Tiers.IRON, 6, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
-    public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", () -> new itemMelee(Tiers.IRON, 5, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
-    public static final RegistryObject<Item> BATNAILS = ITEMS.register("batnails", () -> new itemMelee(Tiers.IRON, 7, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
+    public static final RegistryObject<Item> COMBAT_KNIFE = ITEMS.register("combat_knife", () -> new itemMelee(Tiers.IRON, 4, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
+    public static final RegistryObject<Item> MACHETE = ITEMS.register("machete-1", () -> new itemMelee(Tiers.IRON, 6, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
+    public static final RegistryObject<Item> CROWBAR = ITEMS.register("crowbar", () -> new itemMelee(Tiers.IRON, 5, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
+    public static final RegistryObject<Item> BATNAILS = ITEMS.register("nailed_baseball_bat", () -> new itemMelee(Tiers.IRON, 7, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
 
     public static final RegistryObject<Item> CAN_CORN = ITEMS.register("can_corn", () -> new Item(new Item.Properties().stacksTo(16).tab(Tabs.FOODS_TAB).food(FoodBase.CAN_CORN)));
     public static final RegistryObject<Item> CAKE_PIECE = ITEMS.register("cakepiece", () -> new Item(new Item.Properties().stacksTo(16).tab(Tabs.FOODS_TAB).food(FoodBase.CAKE_PIECE)));
@@ -52,7 +50,6 @@ public class ModItems {
     public static final RegistryObject<Item> CEREALS = ITEMS.register("cereals", () -> new Item(new Item.Properties().stacksTo(16).tab(Tabs.FOODS_TAB).food(FoodBase.CEREALS)));
 
     public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
-    public static final RegistryObject<Item> ROTATE_TOOL = ITEMS.register("rotate_tool", () -> new RotateToolItem(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> MONEY = ITEMS.register("money", () -> new BaseItem(new Item.Properties().stacksTo(100000000).tab(Tabs.ITEMS_TAB)));
 
     public static final RegistryObject<Item> INFECTED_SPAWN_EGG = ITEMS.register("infected_spawn_egg", () -> new ForgeSpawnEggItem(() -> ModEntityTypes.INFECTED_ZOMBIE.get(), 9735821, 3880501, new Item.Properties().tab(Tabs.ITEMS_TAB)));

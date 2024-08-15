@@ -1,6 +1,5 @@
 package com.swiftydevs.projectz.Client.GUI.main;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -32,8 +31,8 @@ public class NewsContainer extends AbstractWidget {
         super(x, y, width, height, TextComponent.EMPTY);
 
         // Fetch news content from GitHub Gist
-        String gistContent = fetchGistContent("https://gist.githubusercontent.com/Samuelp04/085ee88dceb6c8709e8a5f39d95b1f7d/raw/81afe11091d4f341f07df41115840e1804cabd64/gistfile1.txt");
-        parseAndWrapText(gistContent);
+        String gistContent = fetchGistContent("https://gist.githubusercontent.com/Samuelp04/085ee88dceb6c8709e8a5f39d95b1f7d/raw/1c3f8a2e48fd2707d07e23f28ea362c15af699ba/gistfile1.txt");
+        wrapText(gistContent);
     }
 
     private String fetchGistContent(String gistUrl) {
@@ -55,10 +54,9 @@ public class NewsContainer extends AbstractWidget {
         return content.toString();
     }
 
-    private void parseAndWrapText(String gistContent) {
+    private void wrapText(String textContent) {
         wrappedText = new ArrayList<>();
-        String[] lines = gistContent.split("\n");
-        for (String line : lines) {
+        for (String line : textContent.split("\n")) {
             wrappedText.addAll(Minecraft.getInstance().font.split(new TextComponent(line), (int) (this.width / textScale) - 20));
         }
     }
@@ -142,4 +140,3 @@ public class NewsContainer extends AbstractWidget {
 
     }
 }
-

@@ -71,7 +71,8 @@ public class LootBlock extends BaseEntityBlock {
         if (!world.isClientSide) {
             LootHandler.spawnLoot((ServerLevel) world, pos);
             world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-            scheduler.schedule(() -> world.setBlock(pos, this.defaultBlockState(), 3), 5L, TimeUnit.SECONDS);
+            BlockState currentState = state; // Capture the current block state
+            scheduler.schedule(() -> world.setBlock(pos, currentState, 3), 120L, TimeUnit.SECONDS);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.SUCCESS;

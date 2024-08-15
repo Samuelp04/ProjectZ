@@ -1,6 +1,8 @@
 package com.swiftydevs.projectz.Common.init;
 
 import com.swiftydevs.projectz.Common.entity.InfectedZombie;
+import com.swiftydevs.projectz.Common.entity.NpcEntity;
+import com.swiftydevs.projectz.ProjectZ;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -18,6 +20,18 @@ public class ModEntityTypes {
             () -> EntityType.Builder.of(InfectedZombie::new, MobCategory.MONSTER)
                     .sized(0.6F, 1.95F)  // Set size for the entity (width, height)
                     .build(new ResourceLocation("projectz", "infected_zombie").toString())
+
+    );
+    public static final RegistryObject<EntityType<NpcEntity>> MEDICAL_TRADER = ENTITY_TYPES.register("medical_npc_entity",
+            () -> EntityType.Builder.of(NpcEntity::new, MobCategory.MISC)
+                    .sized(0.6F, 1.95F) // Width and height of the entity
+                    .build(new ResourceLocation(ProjectZ.MOD_ID, "steve").toString())
+    );
+
+    public static final RegistryObject<EntityType<NpcEntity>> WEAPONS_TRADER = ENTITY_TYPES.register("weapons_npc_entity",
+            () -> EntityType.Builder.of(NpcEntity::new, MobCategory.MISC)
+                    .sized(0.6F, 1.95F) // Width and height of the entity
+                    .build(new ResourceLocation(ProjectZ.MOD_ID, "steve").toString())
     );
 
     public static void register(IEventBus eventBus) {
