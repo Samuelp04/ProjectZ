@@ -1,11 +1,13 @@
 package com.swiftydevs.projectz.Common.entity;
 
-import com.swiftydevs.projectz.Client.ClientEventHandler;
+import com.swiftydevs.projectz.Client.Packets.OpenTraderGuiPacket;
 import com.swiftydevs.projectz.Client.Trading.TradingScreen;
+import com.swiftydevs.projectz.Common.init.ModNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.NetworkDirection;
 
 import java.util.Collections;
 
@@ -115,11 +118,17 @@ public class NpcEntity extends Mob {
         if (!this.level.isClientSide) {
             if (player instanceof ServerPlayer) {
                 // Send a packet to the client to open the trading screen
-                Minecraft.getInstance().setScreen(new TradingScreen());
+                openTraderGui((ServerPlayer) player);
             }
             return InteractionResult.SUCCESS;
         } else {
             return InteractionResult.CONSUME;
         }
+    }
+
+    private void openTraderGui(ServerPlayer player) {
+        // Example title
+        Component title = new TranslatableComponent("Trading");
+        ModNetworking.CHANNEL.sendTo(new OpenTraderGuiPacket(title), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
     }
 }

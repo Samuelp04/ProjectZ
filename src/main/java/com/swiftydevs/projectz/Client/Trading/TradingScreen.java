@@ -5,197 +5,264 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.swiftydevs.projectz.Client.GUI.main.CustomButton;
 import com.swiftydevs.projectz.Client.PlayerMoney.PlayerMoneyManager;
 import com.swiftydevs.projectz.Common.init.ModItems;
-import com.swiftydevs.projectz.ProjectZ;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.Mod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TradingScreen extends Screen {
-    private final int xSize = 176;
-    private final int ySize = 166;
-    private TradingList tradingList;
-    private int playerBalance;
+    private int guiLeft, guiTop;
+    private int xSize = 256; // Width of the GUI
+    private int ySize = 160; // Height of the GUI
+
+    private List<TradeItem> buyItems;
+    private List<TradeItem> sellItems;
+    private int selectedQuantity = 1;
+    private TradeItem selectedItem = null;
+    private boolean isBuying = true;
+    private Button selectedButton = null;
+    private CustomButton itemButton;
 
     public TradingScreen() {
-        super(Component.nullToEmpty("Trading"));
+        super(new TextComponent("Trader"));
+    }
+
+    // Item Trading List with Custom Image Path
+    private static class TradeItem {
+        private final Item item;
+        private final int price;
+        private final String customImagePath; // Path to the custom image
+
+        public TradeItem(Item item, int price, String customImagePath) {
+            this.item = item;
+            this.price = price;
+            this.customImagePath = customImagePath;
+        }
+
+        public Item getItem() {
+            return item;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        public String getCustomImagePath() {
+            return customImagePath;
+        }
     }
 
     @Override
     protected void init() {
         super.init();
-        this.tradingList = new TradingList(this.minecraft, this.width, this.height, 40, this.height - 40, 40);
-        this.addWidget(this.tradingList);
 
-        // Add items to the trading list here
-        addTradingEntries();
+        // Set the top-left corner of the GUI
+        this.guiLeft = (this.width - this.xSize) / 2;
+        this.guiTop = (this.height - this.ySize) / 2;
 
-        // Get the player's balance
+        // Initialize trading items
+        initializeTradeItems();
+
+        // Create buttons for categories (Buy, Sell)
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 20, this.guiTop + 30, 50, 20, new TextComponent("Buy"), button -> {
+            isBuying = true;
+            updateItemButtons();
+        }));
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 80, this.guiTop + 30, 50, 20, new TextComponent("Sell"), button -> {
+            isBuying = false;
+            updateItemButtons();
+        }));
+
+        // Create quantity controls
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 190, this.guiTop + 120, 20, 20, new TextComponent("-"), button -> {
+            if (selectedQuantity > 1) {
+                selectedQuantity--;
+            }
+        }));
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 230, this.guiTop + 120, 20, 20, new TextComponent("+"), button -> {
+            selectedQuantity++;
+        }));
+
+        // Create the buy/sell button
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 190, this.guiTop + 150, 60, 20, new TextComponent("Confirm"), button -> {
+            if (selectedItem != null) {
+                Player player = Minecraft.getInstance().player;
+                if (isBuying) {
+                    handleBuy(player);
+                } else {
+                    handleSell(player);
+                }
+            }
+        }));
+
+        // Initial item buttons setup
+        updateItemButtons();
+    }
+
+    private void initializeTradeItems() {
+        buyItems = new ArrayList<>();
+        sellItems = new ArrayList<>();
+
+        // Add some example items for buying and selling, with custom images
+        buyItems.add(new TradeItem(ModItems.MED_KIT.get(), 100, "med_kit.png"));
+        buyItems.add(new TradeItem(ModItems.BANDAGE.get(), 50, "bandage.png"));
+        buyItems.add(new TradeItem(ModItems.PAIN_KILLERS.get(), 25, "pain_killers.png"));
+
+        sellItems.add(new TradeItem(ModItems.MED_KIT.get(), 80, "med_kit.png"));
+        sellItems.add(new TradeItem(ModItems.BANDAGE.get(), 40, "bandage.png"));
+        sellItems.add(new TradeItem(ModItems.PAIN_KILLERS.get(), 20, "pain_killers.png"));
+    }
+
+    private void updateItemButtons() {
+        // Clear existing item buttons
+        this.clearWidgets();
+
+        // Recreate buttons for categories
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 20, this.guiTop + 30, 50, 20, new TextComponent("Buy"), button -> {
+            isBuying = true;
+            updateItemButtons();
+        }));
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 80, this.guiTop + 30, 50, 20, new TextComponent("Sell"), button -> {
+            isBuying = false;
+            updateItemButtons();
+        }));
+
+        // Create item grid buttons
+        List<TradeItem> currentItems = isBuying ? buyItems : getSellableItems();
+        int itemGridStartX = this.guiLeft + 20;
+        int itemGridStartY = this.guiTop + 60;
+        int buttonSize = 36; // Increased button size
+        int spacing = 10; // Spacing between buttons
+
+        for (int i = 0; i < currentItems.size(); i++) {
+            TradeItem tradeItem = currentItems.get(i);
+            int x = itemGridStartX + (i % 3) * (buttonSize + spacing);
+            int y = itemGridStartY + (i / 3) * (buttonSize + spacing);
+
+            // Create item button
+            itemButton = new CustomButton(x, y, buttonSize, buttonSize, TextComponent.EMPTY, button -> {
+                selectedItem = tradeItem;
+                selectedButton = itemButton; // Set the selected button
+                updateItemButtons(); // Re-render to highlight the selected button
+            }) {
+                @Override
+                public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+                    // Bind the custom texture
+                    RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                    RenderSystem.setShaderTexture(0, new ResourceLocation("modid", "textures/items/" + tradeItem.getCustomImagePath()));
+
+                    // Draw the custom image
+                    blit(poseStack, this.x + 8, this.y + 8, 0, 0, buttonSize, buttonSize, buttonSize, buttonSize);
+
+                    // Render item name and price below the icon
+                    int textColor = (selectedButton == this) ? 0xFFFF00 : 0xFFFFFF; // Highlight color if selected
+                    TradingScreen.this.font.draw(poseStack, tradeItem.getItem().getDescription().getString(), this.x + 8, this.y + buttonSize + 4, textColor);
+                    TradingScreen.this.font.draw(poseStack, "$" + tradeItem.getPrice(), this.x + 8, this.y + buttonSize + 16, textColor);
+
+                    super.renderButton(poseStack, mouseX, mouseY, partialTicks); // Call the superclass render method
+                }
+            };
+
+            // Add the button to the screen
+            this.addRenderableWidget(itemButton);
+        }
+
+        // Recreate quantity controls and confirm button
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 190, this.guiTop + 120, 20, 20, new TextComponent("-"), button -> {
+            if (selectedQuantity > 1) {
+                selectedQuantity--;
+            }
+        }));
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 230, this.guiTop + 120, 20, 20, new TextComponent("+"), button -> {
+            selectedQuantity++;
+        }));
+
+        // Confirm button
+        this.addRenderableWidget(new CustomButton(this.guiLeft + 190, this.guiTop + 150, 60, 20, new TextComponent("Confirm"), button -> {
+            if (selectedItem != null) {
+                Player player = Minecraft.getInstance().player;
+                if (isBuying) {
+                    handleBuy(player);
+                } else {
+                    handleSell(player);
+                }
+            }
+        }));
+    }
+
+    private List<TradeItem> getSellableItems() {
         Player player = Minecraft.getInstance().player;
-        if (player != null) {
-            this.playerBalance = PlayerMoneyManager.getPlayerBalance(player);
+        List<TradeItem> sellableItems = new ArrayList<>();
+        for (TradeItem item : sellItems) {
+            if (player.getInventory().countItem(item.getItem()) > 0) {
+                sellableItems.add(item);
+            }
+        }
+        return sellableItems;
+    }
+
+    private void handleBuy(Player player) {
+        int totalPrice = selectedItem.getPrice() * selectedQuantity;
+        if (PlayerMoneyManager.getPlayerBalance(player) >= totalPrice) {
+            boolean addedSuccessfully = player.getInventory().add(new ItemStack(selectedItem.getItem(), selectedQuantity));
+            if (addedSuccessfully) {
+                PlayerMoneyManager.addMoney(player, -totalPrice);
+                player.displayClientMessage(new TextComponent("Bought " + selectedQuantity + " " + selectedItem.getItem().getDescription().getString()), true);
+            } else {
+                player.displayClientMessage(new TextComponent("Not enough space in inventory!"), true);
+            }
+        } else {
+            player.displayClientMessage(new TextComponent("Not enough money!"), true);
         }
     }
 
-    private void addTradingEntries() {
-        tradingList.addEntry(new TradingEntry(new ItemStack(ModItems.MED_KIT.get(), 1), 100, 50));
-        tradingList.addEntry(new TradingEntry(new ItemStack(ModItems.DRESSING_PACKAGE.get(), 1), 100, 50));
-        tradingList.addEntry(new TradingEntry(new ItemStack(ModItems.BANDAGE.get(), 1), 100, 50));
-        tradingList.addEntry(new TradingEntry(new ItemStack(ModItems.PAIN_KILLERS.get(), 1), 100, 50));
-        tradingList.addEntry(new TradingEntry(new ItemStack(ModItems.RAG.get(), 1), 100, 50));
+    private void handleSell(Player player) {
+        int totalPrice = selectedItem.getPrice() * selectedQuantity;
+
+        // Check if the player has enough items to sell
+        if (player.getInventory().countItem(selectedItem.getItem()) >= selectedQuantity) {
+            // Remove the items from the player's inventory manually
+            player.getInventory().removeItem(new ItemStack(selectedItem.getItem(), selectedQuantity));
+
+            // Add the money to the player's balance
+            PlayerMoneyManager.addMoney(player, totalPrice);
+
+            // Display a message to the player
+            player.displayClientMessage(new TextComponent("Sold " + selectedQuantity + " " + selectedItem.getItem().getDescription().getString()), true);
+        } else {
+            // Display a message if the player doesn't have enough items
+            player.displayClientMessage(new TextComponent("Not enough items to sell!"), true);
+        }
+    }
+
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        int centerX = this.width / 2;
-        int centerY = this.height / 2;
-        // Render the trading list and other components
-        this.tradingList.render(poseStack, mouseX, mouseY, partialTicks);
+        // Render the background and GUI
+        renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTicks);
-        fill(poseStack, centerX - (this.width / 2) + 20, centerY - (this.height / 2) + 20, centerX + (this.width / 2) - 20, centerY + (this.height / 2) - 20, 0x30303030);
 
-        // Render the player's balance
-        drawCenteredString(poseStack, this.font, "Balance: " + this.playerBalance, this.width / 2, 10, 0xFFFFFF);
-    }
+        // Draw the GUI window
+        this.fillGradient(poseStack, guiLeft, guiTop, guiLeft + xSize, guiTop + ySize, 0xC0101010, 0xD0101010);
 
-    @Override
-    public boolean isPauseScreen() {
-        return false; // Do not pause the game
-    }
+        // Draw the title
+        drawCenteredString(poseStack, this.font, this.title, this.width / 2, this.guiTop + 10, 0xFFFFFF);
 
-    class TradingList extends AbstractSelectionList<TradingEntry> {
-        public TradingList(Minecraft mc, int width, int height, int top, int bottom, int itemHeight) {
-            super(mc, width, height, top, bottom, itemHeight);
-        }
-
-        @Override
-        protected int getScrollbarPosition() {
-            return this.width - 10;
-        }
-
-        @Override
-        public int getRowWidth() {
-            return this.width - 20;
-        }
-
-        public int addEntry(TradingEntry entry) {
-            super.addEntry(entry);
-            return 0;
-        }
-
-        @Override
-        public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-            // Render the trading list
-            super.render(poseStack, mouseX, mouseY, partialTicks);
-
-            // Render a simple scrollbar
-            int scrollbarPosition = this.getScrollbarPosition();
-            int maxScroll = this.getMaxScroll();
-            int scrollbarHeight = Math.max((this.getBottom() - this.getTop()) * (this.getBottom() - this.getTop()) / maxScroll, 32);
-            int scrollbarY = (int) (this.getScrollAmount() * (this.getBottom() - this.getTop() - scrollbarHeight) / maxScroll + this.getTop());
-
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            fill(poseStack, scrollbarPosition, scrollbarY, scrollbarPosition + 6, scrollbarY + scrollbarHeight, 0xFFAAAAAA);
-            fill(poseStack, scrollbarPosition, scrollbarY, scrollbarPosition + 6, scrollbarY + scrollbarHeight, 0xFF555555);
-        }
-
-        @Override
-        public void updateNarration(NarrationElementOutput narrationElementOutput) {
-        }
-    }
-
-    class TradingEntry extends AbstractSelectionList.Entry<TradingEntry> {
-        private final ItemStack itemStack;
-        private final int buyPrice;
-        private final int sellPrice;
-        private final Button buyButton;
-        private final Button sellButton;
-
-        public TradingEntry(ItemStack itemStack, int buyPrice, int sellPrice) {
-            this.itemStack = itemStack;
-            this.buyPrice = buyPrice;
-            this.sellPrice = sellPrice;
-            this.buyButton = new CustomButton(0, 0, 50, 20, Component.nullToEmpty("Buy"), button -> buyItem());
-            this.sellButton = new CustomButton(0, 0, 50, 20, Component.nullToEmpty("Sell"), button -> sellItem());
-        }
-
-        @Override
-        public void render(PoseStack poseStack, int index, int y, int x, int rowWidth, int rowHeight, int mouseX, int mouseY, boolean isMouseOver, float partialTicks) {
-            Minecraft mc = Minecraft.getInstance();
-            mc.getItemRenderer().renderGuiItem(this.itemStack, x, y);
-            mc.font.draw(poseStack, "Buy: " + this.buyPrice, x + 20, y + 5, 0xFFFFFF);
-            mc.font.draw(poseStack, "Sell: " + this.sellPrice, x + 20, y + 20, 0xFFFFFF);
-
-            this.buyButton.x = x + 100;
-            this.buyButton.y = y;
-            this.buyButton.render(poseStack, mouseX, mouseY, partialTicks);
-
-            this.sellButton.x = x + 100;
-            this.sellButton.y = y + 20;
-            this.sellButton.render(poseStack, mouseX, mouseY, partialTicks);
-        }
-
-        @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (button == 0) {
-                if (this.buyButton.mouseClicked(mouseX, mouseY, button)) {
-                    return true;
-                }
-                if (this.sellButton.mouseClicked(mouseX, mouseY, button)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void buyItem() {
-            Player player = Minecraft.getInstance().player;
-            if (player != null) {
-                int balance = PlayerMoneyManager.getPlayerBalance(player);
-                if (balance >= this.buyPrice) {
-                    PlayerMoneyManager.addMoney(player, -this.buyPrice); // Deduct buy price from balance
-
-                    ItemStack itemToAdd = this.itemStack.copy();
-                    boolean added = Minecraft.getInstance().player.getInventory().add(itemToAdd);
-
-
-                    if (!added) {
-                        player.drop(itemToAdd, false);
-                    }
-
-                    // Update the screen's balance
-                    playerBalance = PlayerMoneyManager.getPlayerBalance(player);
-                } else {
-                    player.sendMessage(Component.nullToEmpty("You do not have enough money to buy this item"), player.getUUID());
-                }
-            }
-        }
-
-        private void sellItem() {
-            Player player = Minecraft.getInstance().player;
-            if (player != null) {
-                int slot = player.getInventory().findSlotMatchingItem(this.itemStack);
-                if (slot >= 0) {
-                    ItemStack stackInSlot = player.getInventory().getItem(slot);
-                    if (!stackInSlot.isEmpty() && stackInSlot.getCount() >= this.itemStack.getCount()) {
-                        stackInSlot.shrink(this.itemStack.getCount());
-                        PlayerMoneyManager.addMoney(player, this.sellPrice); // Add sell price to balance
-
-                        // Update the screen's balance
-                        playerBalance = PlayerMoneyManager.getPlayerBalance(player);
-                    } else {
-                        player.sendMessage(Component.nullToEmpty("You do not have enough of the item to sell"), player.getUUID());
-                    }
-                } else {
-                    player.sendMessage(Component.nullToEmpty("You do not have the item to sell"), player.getUUID());
-                }
-            }
-        }
+        // Draw selected quantity
+        drawString(poseStack, this.font, "Quantity: " + selectedQuantity, guiLeft + 190, guiTop + 100, 0xFFFFFF);
     }
 }

@@ -50,7 +50,15 @@ public class ModItems {
     public static final RegistryObject<Item> CEREALS = ITEMS.register("cereals", () -> new Item(new Item.Properties().stacksTo(16).tab(Tabs.FOODS_TAB).food(FoodBase.CEREALS)));
 
     public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
-    public static final RegistryObject<Item> MONEY = ITEMS.register("money", () -> new BaseItem(new Item.Properties().stacksTo(100000000).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> MONEY = ITEMS.register("money", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> TAPE = ITEMS.register("tape", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> PLASTICK = ITEMS.register("plastick", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> NAILS = ITEMS.register("nails", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> MATCHES = ITEMS.register("matches", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> CAN_OPENER = ITEMS.register("can_opener", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> WOOD_LOG = ITEMS.register("wood_log", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> WOOD_LOG1 = ITEMS.register("wood_log1", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
+    public static final RegistryObject<Item> WOOD_LOG2 = ITEMS.register("wood_log2", () -> new BaseItem(new Item.Properties().stacksTo(16).tab(Tabs.ITEMS_TAB)));
 
     public static final RegistryObject<Item> INFECTED_SPAWN_EGG = ITEMS.register("infected_spawn_egg", () -> new ForgeSpawnEggItem(() -> ModEntityTypes.INFECTED_ZOMBIE.get(), 9735821, 3880501, new Item.Properties().tab(Tabs.ITEMS_TAB)));
 

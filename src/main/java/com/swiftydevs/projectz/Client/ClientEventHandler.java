@@ -4,7 +4,6 @@ import com.swiftydevs.projectz.Client.GUI.PlayerStatsOverlay;
 import com.swiftydevs.projectz.Client.Packets.PlayerStatsPacket;
 import com.swiftydevs.projectz.Client.PlayerMoney.MoneyHudOverlay;
 import com.swiftydevs.projectz.Client.PlayerMoney.PlayerMoneyManager;
-import com.swiftydevs.projectz.Client.Trading.TradingScreen;
 import com.swiftydevs.projectz.Common.init.ModItems;
 import com.swiftydevs.projectz.Common.init.ModNetworking;
 import com.swiftydevs.projectz.ProjectZ;

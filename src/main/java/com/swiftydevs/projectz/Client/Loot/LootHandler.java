@@ -56,9 +56,17 @@ public class LootHandler {
         CIVILIAN_LOOT.add(new LootEntry(ModItems.BEANS, 0.78D, 1));
         CIVILIAN_LOOT.add(new LootEntry(ModItems.CEREALS, 0.95D, 1));
         CIVILIAN_LOOT.add(new LootEntry(ModItems.NRG_BAR, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.TAPE, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.PLASTICK, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.NAILS, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.MATCHES, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.CAN_OPENER, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.WOOD_LOG, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.WOOD_LOG1, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(ModItems.WOOD_LOG2, 0.95D, 1));
 
         //Guns
-        /*CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.GLOCK_17, 0.95D, 1));
+        CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.GLOCK_17, 0.95D, 1));
         CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.GLOCK_18, 0.90D, 1));
         CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.STI2011, 0.80D, 1));
         CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.M92FS, 0.75D, 1));
@@ -76,7 +84,7 @@ public class LootHandler {
         CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.BULLET_762x39, 0.70D, 1));
         CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.BULLET_68, 0.65D, 1));
         CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.BULLET_57, 0.60D, 1));
-        CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.COYOTE_SIGHT, 0.55D, 1));*/
+        CIVILIAN_LOOT.add(new LootEntry(com.tac.guns.init.ModItems.COYOTE_SIGHT, 0.55D, 1));
 
     }
 

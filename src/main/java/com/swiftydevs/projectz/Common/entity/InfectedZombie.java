@@ -1,5 +1,8 @@
 package com.swiftydevs.projectz.Common.entity;
 
+import com.swiftydevs.projectz.Common.init.ModEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -42,4 +45,17 @@ public class InfectedZombie extends Zombie {
     protected boolean isSunSensitive() {
         return false;
     }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean isHurt = super.hurt(source, amount);
+        if (isHurt && source.getEntity() instanceof Player) {
+            Player player = (Player) source.getEntity();
+            if (random.nextFloat() < 0.2) { // 20% chance to infect the player
+                player.addEffect(new MobEffectInstance(ModEffects.ZOMBIE_INFECTION, 200, 0));
+            }
+        }
+        return isHurt;
+    }
+
 }
