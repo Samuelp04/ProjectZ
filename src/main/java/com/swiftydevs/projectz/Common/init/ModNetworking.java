@@ -1,5 +1,6 @@
 package com.swiftydevs.projectz.Common.init;
 
+import com.swiftydevs.projectz.Client.Packets.OpenBackpackPacket;
 import com.swiftydevs.projectz.Client.Packets.OpenTraderGuiPacket;
 import com.swiftydevs.projectz.Client.Packets.PlayerStatsPacket;
 import com.swiftydevs.projectz.ProjectZ;
@@ -25,6 +26,7 @@ public class ModNetworking {
         int id = 0;
         CHANNEL.registerMessage(id++, PlayerStatsPacket.class, PlayerStatsPacket::toBytes, PlayerStatsPacket::new, PlayerStatsPacket::handle);
         CHANNEL.registerMessage(id++, OpenTraderGuiPacket.class, OpenTraderGuiPacket::encode, OpenTraderGuiPacket::decode, OpenTraderGuiPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, OpenBackpackPacket.class, OpenBackpackPacket::encode, OpenBackpackPacket::decode, OpenBackpackPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 
     }
 }

@@ -31,7 +31,7 @@ public class NewsContainer extends AbstractWidget {
         super(x, y, width, height, TextComponent.EMPTY);
 
         // Fetch news content from GitHub Gist
-        String gistContent = fetchGistContent("https://gist.githubusercontent.com/Samuelp04/085ee88dceb6c8709e8a5f39d95b1f7d/raw/1c3f8a2e48fd2707d07e23f28ea362c15af699ba/gistfile1.txt");
+        String gistContent = fetchGistContent("https://gist.githubusercontent.com/Samuelp04/085ee88dceb6c8709e8a5f39d95b1f7d/raw/9f3da79e43863054422f1d61cd381beaf775149a/gistfile1.txt");
         wrapText(gistContent);
     }
 

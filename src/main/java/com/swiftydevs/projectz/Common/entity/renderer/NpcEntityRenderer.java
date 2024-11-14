@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 
 public class NpcEntityRenderer extends MobRenderer<NpcEntity, HumanoidModel<NpcEntity>> {
-    private static final ResourceLocation NPC_TEXTURE = new ResourceLocation("projectz", "textures/entity/player/steve.png");
+    private static final ResourceLocation NPC_TEXTURE = new ResourceLocation("projectz", "textures/entity/player/medical_trader.png");
 
     public NpcEntityRenderer(EntityRendererProvider.Context context) {
         super(context, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER)), 0.5f);

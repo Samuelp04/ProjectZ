@@ -1,7 +1,6 @@
 package com.swiftydevs.projectz.Client.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.swiftydevs.projectz.Common.entity.NpcEntity;
 import com.swiftydevs.projectz.Common.init.ModEntityTypes;
@@ -9,8 +8,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 
 public class SpawnNpcCommand {

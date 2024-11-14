@@ -1,6 +1,7 @@
 package com.tac.guns.inventory.gear.armor;
 
 import com.tac.guns.inventory.gear.InventoryListener;
+import com.tac.guns.inventory.gear.backpack.BackpackContainer;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

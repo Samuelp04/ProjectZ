@@ -1,6 +1,7 @@
 package com.swiftydevs.projectz.Client;
 
 import com.swiftydevs.projectz.Client.GUI.PlayerStatsOverlay;
+import com.swiftydevs.projectz.Client.Layers.BackpackLayer;
 import com.swiftydevs.projectz.Client.Packets.PlayerStatsPacket;
 import com.swiftydevs.projectz.Client.PlayerMoney.MoneyHudOverlay;
 import com.swiftydevs.projectz.Client.PlayerMoney.PlayerMoneyManager;
@@ -8,8 +9,14 @@ import com.swiftydevs.projectz.Common.init.ModItems;
 import com.swiftydevs.projectz.Common.init.ModNetworking;
 import com.swiftydevs.projectz.ProjectZ;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +24,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
@@ -25,6 +34,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.HashMap;
@@ -53,6 +63,7 @@ public class ClientEventHandler {
 
         }
     }
+
 
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
@@ -90,6 +101,7 @@ public class ClientEventHandler {
 
         }
     }
+
 
     @SubscribeEvent
     public static void onPlayerKillZombie(LivingDeathEvent event) {

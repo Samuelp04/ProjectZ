@@ -1,10 +1,7 @@
 package com.swiftydevs.projectz.Common.entity;
 
 import com.swiftydevs.projectz.Client.Packets.OpenTraderGuiPacket;
-import com.swiftydevs.projectz.Client.Trading.TradingScreen;
 import com.swiftydevs.projectz.Common.init.ModNetworking;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;

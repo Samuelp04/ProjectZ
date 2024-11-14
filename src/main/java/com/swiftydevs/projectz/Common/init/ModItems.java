@@ -4,6 +4,7 @@ import com.swiftydevs.projectz.Client.Tabs;
 import com.swiftydevs.projectz.Common.Items.BaseItem;
 import com.swiftydevs.projectz.Common.Items.FoodBase;
 import com.swiftydevs.projectz.Common.Items.MedKit;
+import com.swiftydevs.projectz.Common.Items.backpacks.BackpackItem;
 import com.swiftydevs.projectz.Common.Items.itemMelee;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
@@ -26,6 +27,11 @@ public class ModItems {
     public static final RegistryObject<Item> MACHETE = ITEMS.register("machete-1", () -> new itemMelee(Tiers.IRON, 6, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
     public static final RegistryObject<Item> CROWBAR = ITEMS.register("crowbar", () -> new itemMelee(Tiers.IRON, 5, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
     public static final RegistryObject<Item> BATNAILS = ITEMS.register("nailed_baseball_bat", () -> new itemMelee(Tiers.IRON, 7, -2.4F, new Item.Properties().stacksTo(1).tab(Tabs.MELEE_TAB)));
+
+    public static final RegistryObject<Item> OLD_MILITARY_PACK = ITEMS.register("old_military_pack",
+            () -> new BackpackItem(new Item.Properties().tab(Tabs.ARMOR_TAB), 10) {
+            });
+
 
     public static final RegistryObject<Item> CAN_CORN = ITEMS.register("can_corn", () -> new Item(new Item.Properties().stacksTo(16).tab(Tabs.FOODS_TAB).food(FoodBase.CAN_CORN)));
     public static final RegistryObject<Item> CAKE_PIECE = ITEMS.register("cakepiece", () -> new Item(new Item.Properties().stacksTo(16).tab(Tabs.FOODS_TAB).food(FoodBase.CAKE_PIECE)));

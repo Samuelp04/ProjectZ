@@ -110,6 +110,9 @@ dependencies {
     minecraftLibrary(group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '[2.14.2,2.16.0)')
     minecraftLibrary(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '[2.14.2,2.16.0)')
 
+
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
@@ -127,6 +130,7 @@ repositories {
     flatDir {
         dir 'libs'
     }
+
 }
 
 jar {

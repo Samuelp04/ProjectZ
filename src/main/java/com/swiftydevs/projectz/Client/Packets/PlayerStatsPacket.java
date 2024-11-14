@@ -14,6 +14,7 @@ public class PlayerStatsPacket {
     private final int playerZombieKills;
     private final int playerDeaths;
 
+
     public PlayerStatsPacket(UUID playerId, int playerKills, int playerZombieKills, int playerDeaths) {
         this.playerId = playerId;
         this.playerKills = playerKills;

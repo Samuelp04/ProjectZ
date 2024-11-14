@@ -12,7 +12,7 @@ import java.util.UUID;
 public class PlayerMoneyManager {
 
     public static final String BALANCE_KEY = "player_balances";
-    public static Map<UUID, Integer> playerBalances = new HashMap<>();
+    private static Map<UUID, Integer> playerBalances = new HashMap<>();
 
     public static void addMoney(Player player, int amount) {
         UUID playerUUID = player.getUUID();
@@ -21,6 +21,24 @@ public class PlayerMoneyManager {
         playerBalances.put(playerUUID, newBalance);
         saveBalanceData();
         updateBalanceDisplay(player, newBalance);
+    }
+
+    public static boolean hasEnoughMoney(Player player, int amount) {
+        int currentBalance = getPlayerBalance(player);
+        return currentBalance >= amount;
+    }
+
+    public static void subtractMoney(Player player, int amount) {
+        UUID playerUUID = player.getUUID();
+        int currentBalance = playerBalances.getOrDefault(playerUUID, 0);
+        if (currentBalance >= amount) {
+            int newBalance = currentBalance - amount;
+            playerBalances.put(playerUUID, newBalance);
+            saveBalanceData();
+            updateBalanceDisplay(player, newBalance);
+        } else {
+            player.displayClientMessage(Component.nullToEmpty("Not enough money!"), true);
+        }
     }
 
     public static void loadBalanceData() {
