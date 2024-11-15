@@ -2,7 +2,7 @@ package com.swiftydevs.projectz;
 
 import com.mojang.logging.LogUtils;
 import com.swiftydevs.projectz.Client.ClientEventHandler;
-import com.swiftydevs.projectz.Client.GUI.main.ZMainMenu;
+import com.swiftydevs.projectz.Client.GUI.main.MainMenu;
 import com.swiftydevs.projectz.Client.Layers.BackpackLayer;
 import com.swiftydevs.projectz.Client.commands.AddMoneyCommand;
 import com.swiftydevs.projectz.Client.commands.SpawnNpcCommand;
@@ -173,7 +173,7 @@ public class ProjectZ {
     public void onGuiOpen(ScreenEvent.InitScreenEvent.Post event) {
         if (event.getScreen() instanceof TitleScreen) {
             Minecraft minecraft = Minecraft.getInstance();
-            minecraft.setScreen(new ZMainMenu());
+            minecraft.setScreen(new MainMenu());
         }
     }
     public static boolean isPlayerInCreative(Player player) {
